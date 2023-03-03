@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Изменить{% endblock %}
+
+{% block main %}
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" class="form">
+            <h1 class="form__title">Изменить</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ user_form.email }}
+                {{ user_form.first_name }}
+                {{ user_form.last_name }}
+                {{ profile_form.patronymic }}
+                {{ profile_form.status }}
+            </div>
+            <button class="btn form__submit" type="submit">Cохранить</button>
+            <div class="form__info">
+                <a href="{% url 'add_employee' %}" class="form__register_btn">Добавить сотрудника</a> | <a class="delete" href="{% url 'delete_employee' employee.id %}">Удалить сотрудника</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

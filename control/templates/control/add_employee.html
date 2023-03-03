@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Новый сотрудник{% endblock %}
+
+{% block main %}
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" class="form">
+            <h1 class="form__title">Новый сотрудник</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ user_form.email }}
+                {{ user_form.first_name }}
+                {{ user_form.last_name }}
+                {{ profile_form.patronymic }}
+                {{ profile_form.status }}
+                {{ user_form.password }}
+                {{ user_form.password2 }}
+            </div>
+            <button class="btn form__submit" type="submit">Добавить</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

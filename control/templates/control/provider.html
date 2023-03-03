@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Поставщики{% endblock %}
+
+{% block main %}
+<style>
+    .section__form {
+        margin-bottom: 20px;
+    }
+</style>
+{% if form %}
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" enctype="multipart/form-data" class="form">
+            <h1 class="form__title">Изменить</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ form.name }}
+                {{ form.contract }}
+            </div>
+            <button class="btn form__submit" type="submit">Сохранить</button>
+            <div class="form__info">
+                <a href="{% url 'delete_provider' provider.id %}" class="form__register_btn delete">Удалить</a>
+            </div>
+        </form>
+    </div>
+</section>
+<section class="section__form">
+    <div class="container">
+        <form action="{% url 'add_provider_product' provider.id %}" method="POST" class="form">
+            <h1 class="form__title">Добавить товары</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ product_form.product }}
+                {{ product_form.cost }}
+            </div>
+            <button class="btn form__submit" type="submit">Добавить</button>
+            <div class="form__info">
+                <a href="{% url 'delete_provider' provider.id %}" class="form__register_btn delete">Удалить</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endif %}
+<section class="section__list">
+    <div class="container">
+        <div class="provider">
+            <h1 class="section__title">Товары поставщика {{ provider.name }}</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Название
+                        </th>
+                        <th>
+                            Цена
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in provider.products.all %}
+                    <tr>
+                        <td>{{ product.product.name }}</td>
+                        <td>{{ product.cost }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

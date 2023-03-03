@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Добавить к заявке{% endblock %}
+
+{% block main %}
+<style>
+    .section__form {
+        margin-bottom: 20px;
+    }
+    .application-send {
+        margin-top: 40px;
+    }
+</style>
+{% if application.status == 0 %}
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" class="form">
+            <h1 class="form__title">Добавить товар</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ form.product }}
+                {{ form.amount }}
+            </div>
+            <button class="btn form__submit" type="submit">Добавить</button>
+        </form>
+    </div>
+</section>
+<section class="section__form">
+    <div class="container">
+        <form action="{% url 'internal_contract_add' application.id %}" method="POST" enctype="multipart/form-data" class="form">
+            <h1 class="form__title">Договор</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ contract_form.contract }}
+            </div>
+            <button class="btn form__submit" type="submit">Сохранить</button>
+        </form>
+    </div>
+</section>
+{% endif %}
+<section class="section__list">
+    <div class="container">
+        <div class="provider">
+            <h1 class="section__title">Заявка</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Товар
+                        </th>
+                        <th>
+                            Кол-во
+                        </th>
+                        <th>
+                            
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for requirement in application.requirements.all %}
+                    <tr>
+                        <td>{{ requirement.product.name }}</td>
+                        <td>{{ requirement.amount }}</td>
+                        <td>
+                            {% if application.status == 0 %}
+                            <a href="{% url 'delete_requirement' requirement.id %}" class="delete">Удалить</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if application.status == 0 and application.contract %}
+            <a href="{% url 'send_application' application.id %}" class="btn application-send">Отправить заявку</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Вход{% endblock %}
+
+{% block main %}
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" class="form">
+            <h1 class="form__title">Вход</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ form.email }}
+                {{ form.password }}
+            </div>
+            <button class="btn form__submit" type="submit">Войти</button>
+            <div class="form__info">
+                Нет аккаунта? <a href="{% url 'registration' %}" class="form__register_btn">Зарегистрируйтесь</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

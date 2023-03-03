@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Новый поставщик{% endblock %}
+
+{% block main %}
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" enctype="multipart/form-data" class="form">
+            <h1 class="form__title">Новый поставщик</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ form.name }}
+                {{ form.contract }}
+            </div>
+            <button class="btn form__submit" type="submit">Добавить</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

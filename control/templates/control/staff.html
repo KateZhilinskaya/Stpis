@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Сотрудники{% endblock %}
+
+{% block main %}
+<section class="section__list">
+    <div class="container">
+        <div class="staff">
+            <a href="{% url 'add_employee' %}" class="btn staff__add">Добавить сотрудника</a>
+            <h1 class="section__title">Мои сотрудники</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>ФИО</th>
+                        <th>Тип</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in staff %}
+                    <tr>
+                        <td><a href="{% url 'employee' employee.user.id %}">{{ employee.user.email }}</a></td>
+                        <td>{{ employee.get_fio }}</td>
+                        <td>{{ employee.get_status_display }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

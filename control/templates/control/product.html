@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Поставщики{% endblock %}
+
+{% block main %}
+<style>
+    .section__form {
+        margin-bottom: 20px;
+    }
+</style>
+{% if form %}
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" class="form">
+            <h1 class="form__title">Изменить</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ form.name }}
+            </div>
+            <button class="btn form__submit" type="submit">Сохранить</button>
+            <div class="form__info">
+                <a href="{% url 'delete_product' product.id %}" class="form__register_btn delete">Удалить</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endif %}
+<section class="section__list">
+    <div class="container">
+        <div class="provider">
+            <h1 class="section__title">Поставщики товара {{ product.name }}</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Цена</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for provider in product.providers.all %}
+                    <tr>
+                        <td>{{ provider.provider.name }}</td>
+                        <td>{{ provider.cost }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

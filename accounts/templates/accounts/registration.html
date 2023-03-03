@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Регистрация{% endblock %}
+
+{% block main %}
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" class="form">
+            <h1 class="form__title">Регистрация</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ company_form.name }}
+                {{ user_form.email }}
+                {{ user_form.first_name }}
+                {{ user_form.last_name }}
+                {{ profile_form.patronymic }}
+                {{ user_form.password }}
+                {{ user_form.password2 }}
+            </div>
+            <button class="btn form__submit" type="submit">Зарегистрировться</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

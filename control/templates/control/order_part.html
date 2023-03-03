@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Выбор поставщика{% endblock %}
+
+{% block main %}
+<style>
+    .section__form{
+        margin-bottom: 40px;
+    }
+</style>
+<section class="section__form">
+    <div class="container">
+        <form action="." method="POST" class="form">
+            <h1 class="form__title">Выбрать поставщика и кол-во</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ form.product }}
+                {{ form.amount }}
+                {{ form.address }}
+                {{ form.fio }}
+            </div>
+            <div class="cost">
+                Итоговая стоимость: <span></span>
+            </div>
+            <button class="btn form__submit" type="submit">Добавить</button>
+        </form>
+    </div>
+</section>
+{% if part.cost %}
+<section class="section__form">
+    <div class="container">
+        <form action="{% url 'external_contract_add' part.id %}" method="POST" enctype="multipart/form-data" class="form">
+            <h1 class="form__title">Договор</h1>
+            <div class="form__inputs">
+                {% csrf_token %}
+                {{ contract_form.contract }}
+            </div>
+            <button class="btn form__submit" type="submit">Сохранить</button>
+        </form>
+    </div>
+</section>
+{% endif %}
+<script>
+    var price = parseFloat($("select option:selected").text().split(": ")[1])
+    var amount = null
+    function changeCost(price, amount) {
+        if (price && amount) {
+            $(".cost span").html(price * amount)
+        }
+    }
+    $("select").change(function() {
+        price = parseFloat($("select option:selected").text().split(": ")[1])
+        changeCost(price, amount)
+    })
+    $("input[name='amount']").change(function() {
+        amount = parseInt($(this).val())
+        changeCost(price, amount)
+    })
+</script>
+{% endblock %}

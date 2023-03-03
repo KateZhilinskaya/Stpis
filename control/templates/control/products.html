@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}Поставщики{% endblock %}
+
+{% block main %}
+<style>
+    .products__add {
+        margin-bottom: 20px;
+    }
+</style>
+<section class="section__list">
+    <div class="container">
+        <div class="products">
+            <a href="{% url 'add_product' %}" class="btn products__add">Добавить товар</a>
+            <h1 class="section__title">Товары</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td><a href="{% url 'product' product.id %}">{{ product.name }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script>
+    $(".menu__item").removeClass("active")
+    $(".menu__item:nth-child(2)").addClass("active")
+</script>
+{% endblock %}
